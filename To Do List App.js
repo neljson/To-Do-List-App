@@ -1,6 +1,4 @@
-// Version 5 (For Loops): It should display all items in our list as .todoText propety. It should
-// display a message to tell user that To do list is empty. It should display
-// our .completed property
+// Version 6: It should have a toggleAll feature. If all items are checked, it should toggle off (false), otherwise check everything (all true).
 
 const todo = {
     todo: [],
@@ -38,5 +36,26 @@ const todo = {
         todo.completed = !todo.completed
         this.displayTodo()
     },
+    toggleAll: function () {
+        const totalTodo = this.todo.length
+        let completedTodo = 0
+    // Count number of to dos that are completed
+        for (let i = 0; i < this.todo.length; i++) {
+            if (this.todo[i].completed === true ) {
+                completedTodo++
+            }
+        }
+    // Case 1: If all items are finished(true), then uncheck all items(make every item false)
+        if (completedTodo === totalTodo) {
+            for (let i = 0; i < this.todo.length; i++) {
+                this.todo[i].completed = false}
+    // Case 2: Otherwise, check the rest of the items (make everything true)
+        } else {
+            for (let i = 0; i < this.todo.length; i++) {
+                this.todo[i].completed = true}
+        }
+        
+        this.displayTodo()
+    }
 
 }
