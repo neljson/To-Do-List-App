@@ -1,4 +1,4 @@
-// Version 6: It should have a toggleAll feature. If all items are checked, it should toggle off (false), otherwise check everything (all true).
+// Version 7 (HTML): It should have displayTodo button, and toggleAll button. It should call the associated method when buttons are pressed.
 
 const todo = {
     todo: [],
@@ -59,3 +59,23 @@ const todo = {
     }
 
 }
+
+
+//Access to display to do button
+
+const displayTodoButton = document.getElementById('displayTodoButton')
+
+
+// It should run displayTodo method when user clicks display my to do list button
+
+displayTodoButton.addEventListener('click', function() {
+  todo.displayTodo()
+})
+
+//Access to toggle all/select all button and run toggleAll method when user clicks
+const toggleAllButton = document.getElementById('toggleAllButton')
+
+toggleAllButton.addEventListener('click', function() {
+  todo.toggleAll()
+})
+
