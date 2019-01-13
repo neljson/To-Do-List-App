@@ -1,23 +1,48 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <link rel='stylesheet' href='style.css'>
-    
-  </head>
+
+<head>
+	<title></title>
+	<link rel="stylesheet" href="src/styles.css">
+</head>
+
+<body>
+	<h1>To Do List</h1>
+	
+	<div>
+	<!-- <button id='displayTodoButton'>Display my to do list</button>
+	<button id='toggleAllButton'>Select All</button> -->
+	<!-- refactor button id attribute to onclick attribute -->
+	  <button onclick="handlers.displayTodo()">Show my to do list</button>
+  	<button onclick="handlers.toggleAll()">Select All</button>
+  </div>
   
-  <body>
-    <h1>My To Do List</h1>
-    
-    <button id='displayTodoButton'>Display my to do list</button>
-    <button id='toggleAllButton'>Select All</button>
-    <script src='script.js'></script>
-    
-  </body>
+  <div>
+      <!--Make button run addTodo function on handler-->
+      <button onclick="handlers.addTodo()">Add</button>
+      <!--give user to input text-->
+      <input id="addTodoTextInput" type="text">
+  </div>
   
-
- 
-
-
-
+  <div>
+    <button onclick="handlers.deleteTodo()">Delete an item</button>
+    <input id="deleteTodoPositionInput" type="number">
+  </div>
+  
+  <div>
+    <button onclick="handlers.changeTodo()">Edit Item</button>
+    <!--Need two text inputs. One to identify location of item to change. Second replace old item with input of new item's name  -->
+    <input id="changeTodoPositionInput" type="number">
+    <input id="changeTodoTextInput" type="text">
+  </div>
+  
+  <div>
+    <button onclick="handlers.toggleCompleted()">Item Completed</button>
+    <input id="toggleCompletedPositionInput" type="number"> 
+  </div>
+  
+  
+	   <script> src="index.js"</script>
+</body>
+	
 </html>
