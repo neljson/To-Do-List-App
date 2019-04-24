@@ -1,112 +1,122 @@
-// Version 8: Refactoring
+// Version 9: Display out items as bullet list
 
-const todo = {
+const todoList = {
   todo: [],
-  displayTodo: function() {
-    if (this.todo.length === 0) {
-      console.log("You have finished everything on your To Do List!")
-    } else {
-      console.log("My To do list:")
-      for (let i = 0; i < this.todo.length; i++) {
-        if (this.todo[i].completed === true) {
-          console.log("(x)", this.todo[i].todoText)
-        } else {
-          console.log("()", this.todo[i].todoText)
-        }
-      }
-    }
-  },
+// deleted console log displayTodo function, no longer use console, only use view to see our items
   addTodo: function(todoText) {
     this.todo.push({
       todoText: todoText,
       completed: false
     })
-    this.displayTodo()
   },
   changeTodo: function(position, todoText) {
     this.todo[position].todoText = todoText
-    this.displayTodo()
   },
   deleteTodo: function(position) {
     this.todo.splice(position, 1)
-    this.displayTodo()
   },
   toggleCompleted: function(position) {
     const todo = this.todo[position]
     todo.completed = !todo.completed
-    this.displayTodo()
   },
   toggleAll: function() {
     const totalTodo = this.todo.length
     let completedTodo = 0
-    // Count number of to dos that are completed
     for (let i = 0; i < this.todo.length; i++) {
       if (this.todo[i].completed === true) {
         completedTodo++
       }
     }
-    // Case 1: If all items are finished(true), then uncheck all items(make every item false)
     if (completedTodo === totalTodo) {
       for (let i = 0; i < this.todo.length; i++) {
         this.todo[i].completed = false
       }
-      // Case 2: Otherwise, check the rest of the items (make everything true)
     } else {
       for (let i = 0; i < this.todo.length; i++) {
         this.todo[i].completed = true
       }
     }
-
-    this.displayTodo()
   }
 }
 
-// //Access to display to do button
-
-// const displayTodoButton = document.getElementById("displayTodoButton")
-
-// // It should run displayTodo method when user clicks display my to do list button
-
-// displayTodoButton.addEventListener("click", function() {
-//   todo.displayTodo()
-// })
-
-// //Access to toggle all/select all button and run toggleAll method when user clicks
-// const toggleAllButton = document.getElementById("toggleAllButton")
-
-// toggleAllButton.addEventListener("click", function() {
-//   todo.toggleAll()
-// })
-
-// new object handlers whose methods will handle Events in html
 const handlers = {
-  displayTodo: function() {
-    todo.displayTodo()
-  },
+
   addTodo: function () {
     const addTodoTextInput = document.getElementById('addTodoTextInput')
-    todo.addTodo(addTodoTextInput.value)
+    todoList.addTodo(addTodoTextInput.value)
     // we want input text box to clear after adding an item so it is blank and ready to accept next item
     addTodoTextInput.value = ''
+    // add view.displayTodo function at end of each handler function. We don't need a display to do button in app, should display to user w/o having to press display each time.
+    view.displayTodo()
   },
   changeTodo: function() {
     const changeTodoPositionInput = document.getElementById('changeTodoPositionInput')
     const changeTodoTextInput = document.getElementById('changeTodoTextInput')
-    todo.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value)
+    todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value)
     changeTodoPositionInput.value = ''
     changeTodoTextInput.value = ''
+    view.displayTodo()
   },
   deleteTodo: function() {
     const deleteTodoPositionInput = document.getElementById('deleteTodoPositionInput')
-    todo.deleteTodo(deleteTodoPositionInput.valueAsNumber)
+    todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber)
     deleteTodoPositionInput.value = ''
+    view.displayTodo()
   },
   toggleCompleted: function() {
     const toggleCompletedPositionInput = document.getElementById("toggleCompletedPositionInput")
-    todo.toggleCompleted(toggleCompletedPositionInput.valueAsNumber)
+    todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber)
     toggleCompletedPositionInput.value = ''
+    view.displayTodo()
   },
     toggleAll: function() {
-    todo.toggleAll()
+    todoList.toggleAll()
+    view.displayTodo()
   }
 }
+
+// Create new object called "view" b/c this will be displayed on the screen and what user sees
+
+// this one works
+// const view = {
+//   displayTodo: function () {
+//     const todosUl= document.querySelector('ul')
+//     todosUl.innerHTML= ''
+//     for (let i=0; i < todo.todo.length; i++) {
+//       let todoLi = document.createElement('li')
+//       todosUl.appendChild(todoLi)
+//     }
+//   },
+// }
+
+// windows.view = view
+// this is to make view object global scope as const variable is not unlike var variable that Gordon used
+// also iframe in web dev tools console is not "top" but "about:blank/playcode.io", to make about:blank show 
+// up, must include windows.view first, will throw some errors, delete windows.view, and about: blank will show up
+
+const view = {
+  displayTodo: function () {
+    const todosUl= document.querySelector('ul')
+    // resets bullet count to zero, so bullet count matches to do item count
+    todosUl.innerHTML= ''
+    for (let i=0; i < todoList.todo.length; i++) {
+      let todoLi = document.createElement('li')
+      // show item as completed (x)
+      let todoTextWithCompletion = ''
+      if (todoList.todo[i].completed === true) {
+        todoTextWithCompletion = '(x) ' + todoList.todo[i].todoText
+      } else {
+        todoTextWithCompletion = '() ' + todoList.todo[i].todoText
+      }
+      todoLi.textContent = todoTextWithCompletion
+      // DOM textContent property on html element. Set each added item as bullets
+      todosUl.appendChild(todoLi)
+    }
+  },
+}
+ 
+// Gordon uses todos for his array. I use array. He created new variable "todo", I did not. Version 9 vid 5"
+
+
+
+
