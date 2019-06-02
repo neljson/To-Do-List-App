@@ -1,8 +1,8 @@
-// Version 10: Add Delete buttons to each item
+// Version 11: replace for loops with for each
 
 const todoList = {
   todo: [],
-// deleted console log displayTodo function, no longer use console, only use view to see our items
+  // deleted console log displayTodo function, no longer use console, only use view to see our items
   addTodo: function(todoText) {
     this.todo.push({
       todoText: todoText,
@@ -19,22 +19,22 @@ const todoList = {
     const todo = this.todo[position]
     todo.completed = !todo.completed
   },
-  toggleAll: function() {
+  toggleAll: function () {
     const totalTodo = this.todo.length
     let completedTodo = 0
-    for (let i = 0; i < this.todo.length; i++) {
-      if (this.todo[i].completed === true) {
+    this.todo.forEach(function(todo) {
+      if (todo.completed === true) {
         completedTodo++
       }
-    }
+    })
     if (completedTodo === totalTodo) {
-      for (let i = 0; i < this.todo.length; i++) {
-        this.todo[i].completed = false
-      }
+      this.todo.forEach(function(todo) {
+        todo.completed = false
+      })
     } else {
-      for (let i = 0; i < this.todo.length; i++) {
-        this.todo[i].completed = true
-      }
+      this.todo.forEach(function(todo) {
+        todo.completed = true
+      })
     }
   }
 }
@@ -58,9 +58,9 @@ const handlers = {
     view.displayTodo()
   },
   deleteTodo: function(position) {
-    
+
     todoList.deleteTodo(position)
-    
+
     view.displayTodo()
   },
   toggleCompleted: function() {
@@ -69,7 +69,7 @@ const handlers = {
     toggleCompletedPositionInput.value = ''
     view.displayTodo()
   },
-    toggleAll: function() {
+  toggleAll: function() {
     todoList.toggleAll()
     view.displayTodo()
   }
@@ -91,15 +91,15 @@ const handlers = {
 
 // windows.view = view
 // this is to make view object global scope as const variable is not unlike var variable that Gordon used
-// also iframe in web dev tools console is not "top" but "about:blank/playcode.io", to make about:blank show 
+// also iframe in web dev tools console is not "top" but "about:blank/playcode.io", to make about:blank show
 // up, must include windows.view first, will throw some errors, delete windows.view, and about: blank will show up
 
 const view = {
   displayTodo: function () {
-    const todosUl= document.querySelector('ul')
+    const todosUl = document.querySelector('ul')
     // resets bullet count to zero, so bullet count matches to do item count
-    todosUl.innerHTML= ''
-    for (let i=0; i < todoList.todo.length; i++) {
+    todosUl.innerHTML = ''
+    for (let i = 0; i < todoList.todo.length; i++) {
       let todoLi = document.createElement('li')
       // show item as completed (x)
       let todoTextWithCompletion = ''
@@ -125,12 +125,12 @@ const view = {
   },
   setUpEventListeners: function () {
     const todosUl = document.querySelector('ul')
-  // Event delegation. Instead of adding event listeners for each li delete button, just add 
-  // single event listener on ul. Add event listener to ul or parent and event listener applied to all elements inside of it. 
+    // Event delegation. Instead of adding event listeners for each li delete button, just add
+    // single event listener on ul. Add event listener to ul or parent and event listener applied to all elements inside of it.
     todosUl.addEventListener('click', function(event) {
-  // Get the element that was clicked on 
+      // Get the element that was clicked on
       const elementClicked = event.target
-  // Check if elementClicked is a delete button
+      // Check if elementClicked is a delete button
       if (elementClicked.className === 'deleteButton') {
         handlers.deleteTodo(parseInt(elementClicked.parentNode.id))
       }
@@ -142,9 +142,7 @@ view.setUpEventListeners()
 
 
 
- 
+
 // Gordon uses todos for his array. I use array. He created new variable "todo", I did not. Version 9 vid 5"
-
-
 
 
