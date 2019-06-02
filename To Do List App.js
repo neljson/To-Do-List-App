@@ -1,4 +1,4 @@
-// Version 9: Display out items as bullet list
+// Version 10: Add Delete buttons to each item
 
 const todoList = {
   todo: [],
@@ -57,10 +57,10 @@ const handlers = {
     changeTodoTextInput.value = ''
     view.displayTodo()
   },
-  deleteTodo: function() {
-    const deleteTodoPositionInput = document.getElementById('deleteTodoPositionInput')
-    todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber)
-    deleteTodoPositionInput.value = ''
+  deleteTodo: function(position) {
+    
+    todoList.deleteTodo(position)
+    
     view.displayTodo()
   },
   toggleCompleted: function() {
@@ -108,12 +108,40 @@ const view = {
       } else {
         todoTextWithCompletion = '() ' + todoList.todo[i].todoText
       }
+      // each li should have an id for its item position
+      todoLi.id = i
       todoLi.textContent = todoTextWithCompletion
       // DOM textContent property on html element. Set each added item as bullets
+      // delete button for each to do items
+      todoLi.appendChild(this.createDeleteButton())
       todosUl.appendChild(todoLi)
     }
   },
+  createDeleteButton: function () {
+    const deleteButton = document.createElement('button')
+    deleteButton.textContent = 'Delete'
+    deleteButton.className = 'deleteButton'
+    return deleteButton
+  },
+  setUpEventListeners: function () {
+    const todosUl = document.querySelector('ul')
+  // Event delegation. Instead of adding event listeners for each li delete button, just add 
+  // single event listener on ul. Add event listener to ul or parent and event listener applied to all elements inside of it. 
+    todosUl.addEventListener('click', function(event) {
+  // Get the element that was clicked on 
+      const elementClicked = event.target
+  // Check if elementClicked is a delete button
+      if (elementClicked.className === 'deleteButton') {
+        handlers.deleteTodo(parseInt(elementClicked.parentNode.id))
+      }
+    })
+  }
 }
+
+view.setUpEventListeners()
+
+
+
  
 // Gordon uses todos for his array. I use array. He created new variable "todo", I did not. Version 9 vid 5"
 
